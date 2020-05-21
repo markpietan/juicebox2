@@ -5,6 +5,7 @@ const apiRouter = require('./api');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const { client } = require('./db');
+require('dotenv').config();
 server.use(morgan('dev'));
 server.use(bodyParser.json());
 server.use('/api', apiRouter);
@@ -13,6 +14,7 @@ server.listen(PORT, () => {
 });
 
 client.connect();
+
 
 server.use((req, res, next) => {
     console.log("<____Body Logger START____>");
