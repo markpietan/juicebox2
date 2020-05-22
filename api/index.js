@@ -7,13 +7,14 @@ const tagsRouter = require('./tags.js');
 
 const jwt = require('jsonwebtoken');
 const { getUserById } = require('../db');
-const { JWT_SECRET } = process.env;
+// const { JWT_SECRET } = process.env;
 
 // set `req.user` if possible
 apiRouter.use(async (req, res, next) => {
   const prefix = 'Bearer ';
   const auth = req.header('Authorization');
-  console.log(auth.startsWith(prefix))
+  console.log(auth)
+
 
   if (!auth) { // nothing to see here
     next();
@@ -21,7 +22,7 @@ apiRouter.use(async (req, res, next) => {
     const token = auth.slice(prefix.length);
     console.log(token)
     try {
-      const { id } = jwt.verify(token, JWT_SECRET);
+      const { id } = jwt.verify(token, process.env.JWT_SECRET);
        console.log(id)
       if (id) {
         req.user = await getUserById(id);
